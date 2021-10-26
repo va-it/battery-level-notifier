@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOW=40
-HIGH=70
+HIGH=80
 NOT_CHARGING="0"
 CHARGING="1"
 ICON_LOW="/usr/share/icons/ubuntu-mono-dark/status/24/unity-battery-040.svg"
@@ -13,8 +13,12 @@ export DISPLAY=:0
 while true
     do 
 	POWERSUPPLY="/sys/class/power_supply/AC/online" # could be different
-	BATTERY_LEVEL=$(acpi -b | grep -P -o '[0-9]+(?=%)')
 	STATUS=$(cat $POWERSUPPLY)
+	RETRIEVE_BATTERY_INFO=$(upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage")
+	BATTERY_LEVEL=$(echo $RETRIEVE_BATTERY_INFO | grep -P -o '[0-9]+(?=%)')	
+	
+	
+	echo $BATTERY_LEVEL
 
 	if [[ $BATTERY_LEVEL -le $LOW && $STATUS == $NOT_CHARGING ]]
 		then
