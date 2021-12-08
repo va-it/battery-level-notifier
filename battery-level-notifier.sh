@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOW=40
+LOW=50
 HIGH=80
 NOT_CHARGING="0"
 CHARGING="1"
